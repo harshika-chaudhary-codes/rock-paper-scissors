@@ -1,0 +1,1053 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Rock Paper Scissors</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+
+            background: linear-gradient(135deg, #667eea, #764ba2);
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 30px;
+
+            transition: 0.4s;
+        }
+
+
+        /* DARK MODE */
+
+        body.dark {
+            background: linear-gradient(135deg, #111827, #312e81);
+        }
+
+
+        /* MAIN CONTAINER */
+
+        .game {
+            width: 100%;
+            max-width: 850px;
+
+            background: rgba(255, 255, 255, 0.94);
+
+            padding: 35px;
+
+            border-radius: 25px;
+
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.25);
+
+            position: relative;
+
+            animation: appear 0.7s ease;
+
+            transition: 0.4s;
+        }
+
+
+        body.dark .game {
+            background: rgba(25, 25, 35, 0.95);
+            color: white;
+        }
+
+
+        @keyframes appear {
+
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+
+        /* HEADER */
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+
+        .subtitle {
+            color: #666;
+        }
+
+
+        body.dark .subtitle {
+            color: #bbb;
+        }
+
+
+        /* DARK MODE BUTTON */
+
+        .theme-btn {
+            position: absolute;
+
+            right: 25px;
+            top: 25px;
+
+            border: none;
+
+            width: 45px;
+            height: 45px;
+
+            border-radius: 50%;
+
+            cursor: pointer;
+
+            font-size: 20px;
+
+            background: #eee;
+
+            transition: 0.3s;
+        }
+
+
+        .theme-btn:hover {
+            transform: rotate(20deg) scale(1.1);
+        }
+
+
+        body.dark .theme-btn {
+            background: #444;
+        }
+
+
+        /* CHOICES */
+
+        .choices {
+            display: flex;
+
+            justify-content: center;
+
+            gap: 20px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .choice {
+            width: 150px;
+
+            padding: 20px;
+
+            border: none;
+
+            border-radius: 18px;
+
+            background: #f3f4f6;
+
+            cursor: pointer;
+
+            font-size: 20px;
+
+            transition: 0.25s;
+
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+
+        .choice:hover {
+            transform: translateY(-10px) scale(1.05);
+
+            box-shadow:
+                0 15px 25px rgba(0,0,0,0.15);
+        }
+
+
+        .choice:active {
+            transform: scale(0.92);
+        }
+
+
+        body.dark .choice {
+            background: #374151;
+            color: white;
+        }
+
+
+        /* RESULT */
+
+        .result-box {
+            margin-top: 30px;
+
+            padding: 25px;
+
+            text-align: center;
+
+            border-radius: 20px;
+
+            background: #f8f9fa;
+        }
+
+
+        body.dark .result-box {
+            background: #1f2937;
+        }
+
+
+        #result {
+            font-size: 30px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .result-animation {
+            animation: pop 0.45s ease;
+        }
+
+
+        @keyframes pop {
+
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            70% {
+                transform: scale(1.15);
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+        }
+
+
+        #choices {
+            color: #666;
+        }
+
+
+        body.dark #choices {
+            color: #ccc;
+        }
+
+
+        /* SCORE */
+
+        .score-area {
+            display: flex;
+
+            justify-content: center;
+
+            gap: 25px;
+
+            margin-top: 25px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .score-card {
+            min-width: 150px;
+
+            padding: 18px;
+
+            text-align: center;
+
+            border-radius: 18px;
+
+            background: #f3f4f6;
+
+            transition: 0.3s;
+        }
+
+
+        body.dark .score-card {
+            background: #374151;
+        }
+
+
+        .score-card:hover {
+            transform: translateY(-5px);
+        }
+
+
+        .score-card h3 {
+            margin-bottom: 8px;
+        }
+
+
+        .score-card p {
+            font-size: 35px;
+
+            font-weight: bold;
+        }
+
+
+        /* STREAK */
+
+        .streak {
+            margin-top: 20px;
+
+            text-align: center;
+
+            padding: 15px;
+
+            border-radius: 15px;
+
+            background: #fff3cd;
+
+            font-size: 20px;
+
+            font-weight: bold;
+        }
+
+
+        body.dark .streak {
+            background: #4b3f1f;
+        }
+
+
+        /* BUTTONS */
+
+        .buttons {
+            display: flex;
+
+            justify-content: center;
+
+            gap: 15px;
+
+            margin-top: 25px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .reset,
+        .clear-history {
+            padding: 13px 22px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            cursor: pointer;
+
+            font-size: 16px;
+
+            transition: 0.25s;
+        }
+
+
+        .reset {
+            background: #333;
+            color: white;
+        }
+
+
+        .clear-history {
+            background: #ddd;
+        }
+
+
+        .reset:hover,
+        .clear-history:hover {
+            transform: scale(1.06);
+        }
+
+
+        body.dark .clear-history {
+            background: #555;
+            color: white;
+        }
+
+
+        /* HISTORY */
+
+        .history {
+            margin-top: 30px;
+        }
+
+
+        .history h2 {
+            text-align: center;
+
+            margin-bottom: 15px;
+        }
+
+
+        #historyList {
+            list-style: none;
+
+            max-height: 220px;
+
+            overflow-y: auto;
+        }
+
+
+        #historyList li {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding: 12px 15px;
+
+            margin-bottom: 8px;
+
+            border-radius: 10px;
+
+            background: #f3f4f6;
+        }
+
+
+        body.dark #historyList li {
+            background: #374151;
+        }
+
+
+        .win {
+            border-left: 5px solid green;
+        }
+
+
+        .lose {
+            border-left: 5px solid red;
+        }
+
+
+        .draw {
+            border-left: 5px solid orange;
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 15px;
+            }
+
+
+            .game {
+                padding: 25px 15px;
+            }
+
+
+            h1 {
+                font-size: 27px;
+
+                padding: 0 40px;
+            }
+
+
+            .choice {
+                width: 100%;
+            }
+
+
+            .score-card {
+                width: 100%;
+            }
+
+
+            .theme-btn {
+                right: 15px;
+                top: 15px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="game">
+
+
+    <!-- DARK MODE -->
+
+    <button class="theme-btn" onclick="toggleDarkMode()">
+        🌙
+    </button>
+
+
+    <!-- HEADER -->
+
+    <header>
+
+        <h1>
+            🪨 Rock 📄 Paper ✂️ Scissors
+        </h1>
+
+        <p class="subtitle">
+            Challenge the computer and build your winning streak!
+        </p>
+
+    </header>
+
+
+    <!-- CHOICES -->
+
+    <div class="choices">
+
+        <button class="choice" onclick="playGame('Rock')">
+            🪨<br>
+            Rock
+        </button>
+
+        <button class="choice" onclick="playGame('Paper')">
+            📄<br>
+            Paper
+        </button>
+
+        <button class="choice" onclick="playGame('Scissors')">
+            ✂️<br>
+            Scissors
+        </button>
+
+    </div>
+
+
+    <!-- RESULT -->
+
+    <div class="result-box">
+
+        <h2 id="result">
+            Make your choice! 🎮
+        </h2>
+
+        <p id="choices">
+            Your choice and computer choice will appear here.
+        </p>
+
+    </div>
+
+
+    <!-- SCORE -->
+
+    <div class="score-area">
+
+        <div class="score-card">
+
+            <h3>
+                👤 You
+            </h3>
+
+            <p id="playerScore">
+                0
+            </p>
+
+        </div>
+
+
+        <div class="score-card">
+
+            <h3>
+                🤖 Computer
+            </h3>
+
+            <p id="computerScore">
+                0
+            </p>
+
+        </div>
+
+
+        <div class="score-card">
+
+            <h3>
+                🎮 Games
+            </h3>
+
+            <p id="gamesPlayed">
+                0
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- WIN STREAK -->
+
+    <div class="streak">
+
+        🔥 Current Win Streak:
+        <span id="streak">
+            0
+        </span>
+
+        <br>
+
+        🏆 Best Streak:
+        <span id="bestStreak">
+            0
+        </span>
+
+    </div>
+
+
+    <!-- BUTTONS -->
+
+    <div class="buttons">
+
+        <button class="reset" onclick="resetGame()">
+            🔄 Reset Game
+        </button>
+
+        <button class="clear-history" onclick="clearHistory()">
+            🗑️ Clear History
+        </button>
+
+    </div>
+
+
+    <!-- GAME HISTORY -->
+
+    <div class="history">
+
+        <h2>
+            📊 Game History
+        </h2>
+
+        <ul id="historyList">
+
+            <li>
+                No games played yet.
+            </li>
+
+        </ul>
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+
+    /* GAME VARIABLES */
+
+    let playerScore = 0;
+
+    let computerScore = 0;
+
+    let gamesPlayed = 0;
+
+    let currentStreak = 0;
+
+    let bestStreak = 0;
+
+
+
+    /* SOUND */
+
+    function playSound(type) {
+
+        const audioContext =
+            new (window.AudioContext ||
+                window.webkitAudioContext)();
+
+        const oscillator =
+            audioContext.createOscillator();
+
+        const gain =
+            audioContext.createGain();
+
+
+        oscillator.connect(gain);
+
+        gain.connect(audioContext.destination);
+
+
+        if (type === "win") {
+
+            oscillator.frequency.value = 700;
+
+        }
+
+        else if (type === "lose") {
+
+            oscillator.frequency.value = 250;
+
+        }
+
+        else {
+
+            oscillator.frequency.value = 450;
+
+        }
+
+
+        oscillator.type = "sine";
+
+        gain.gain.setValueAtTime(
+            0.15,
+            audioContext.currentTime
+        );
+
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.01,
+            audioContext.currentTime + 0.25
+        );
+
+
+        oscillator.start();
+
+        oscillator.stop(
+            audioContext.currentTime + 0.25
+        );
+
+    }
+
+
+
+    /* MAIN GAME */
+
+    function playGame(playerChoice) {
+
+
+        const choices =
+            ["Rock", "Paper", "Scissors"];
+
+
+        const computerChoice =
+            choices[Math.floor(Math.random() * 3)];
+
+
+        let result;
+
+        let resultClass;
+
+
+
+        /* DRAW */
+
+        if (playerChoice === computerChoice) {
+
+            result = "🤝 It's a Draw!";
+
+            resultClass = "draw";
+
+            currentStreak = 0;
+
+            playSound("draw");
+
+        }
+
+
+        /* PLAYER WIN */
+
+        else if (
+
+            (playerChoice === "Rock" &&
+                computerChoice === "Scissors")
+
+            ||
+
+            (playerChoice === "Paper" &&
+                computerChoice === "Rock")
+
+            ||
+
+            (playerChoice === "Scissors" &&
+                computerChoice === "Paper")
+
+        ) {
+
+            result = "🎉 You Win!";
+
+            resultClass = "win";
+
+            playerScore++;
+
+            currentStreak++;
+
+            if (currentStreak > bestStreak) {
+
+                bestStreak = currentStreak;
+
+            }
+
+            playSound("win");
+
+        }
+
+
+        /* COMPUTER WIN */
+
+        else {
+
+            result = "🤖 Computer Wins!";
+
+            resultClass = "lose";
+
+            computerScore++;
+
+            currentStreak = 0;
+
+            playSound("lose");
+
+        }
+
+
+        gamesPlayed++;
+
+
+
+        /* UPDATE RESULT */
+
+        const resultElement =
+            document.getElementById("result");
+
+
+        resultElement.innerText = result;
+
+
+        resultElement.classList.remove(
+            "result-animation"
+        );
+
+
+        void resultElement.offsetWidth;
+
+
+        resultElement.classList.add(
+            "result-animation"
+        );
+
+
+
+        /* UPDATE CHOICES */
+
+        document.getElementById("choices").innerText =
+
+            "You chose " +
+            playerChoice +
+            "  •  Computer chose " +
+            computerChoice;
+
+
+
+        /* UPDATE SCORE */
+
+        document.getElementById("playerScore").innerText =
+            playerScore;
+
+
+        document.getElementById("computerScore").innerText =
+            computerScore;
+
+
+        document.getElementById("gamesPlayed").innerText =
+            gamesPlayed;
+
+
+
+        /* UPDATE STREAK */
+
+        document.getElementById("streak").innerText =
+            currentStreak;
+
+
+        document.getElementById("bestStreak").innerText =
+            bestStreak;
+
+
+
+        /* ADD HISTORY */
+
+        addHistory(
+            playerChoice,
+            computerChoice,
+            result,
+            resultClass
+        );
+
+    }
+
+
+
+    /* HISTORY */
+
+    function addHistory(
+        player,
+        computer,
+        result,
+        resultClass
+    ) {
+
+
+        const historyList =
+            document.getElementById("historyList");
+
+
+        /* Remove empty message */
+
+        if (gamesPlayed === 1) {
+
+            historyList.innerHTML = "";
+
+        }
+
+
+        const item =
+            document.createElement("li");
+
+
+        item.classList.add(resultClass);
+
+
+        item.innerHTML =
+
+            `<span>
+                ${player} 🆚 ${computer}
+            </span>
+
+            <strong>
+                ${result}
+            </strong>`;
+
+
+        historyList.prepend(item);
+
+    }
+
+
+
+    /* RESET */
+
+    function resetGame() {
+
+        playerScore = 0;
+
+        computerScore = 0;
+
+        gamesPlayed = 0;
+
+        currentStreak = 0;
+
+        bestStreak = 0;
+
+
+        document.getElementById("playerScore").innerText =
+            "0";
+
+
+        document.getElementById("computerScore").innerText =
+            "0";
+
+
+        document.getElementById("gamesPlayed").innerText =
+            "0";
+
+
+        document.getElementById("streak").innerText =
+            "0";
+
+
+        document.getElementById("bestStreak").innerText =
+            "0";
+
+
+        document.getElementById("result").innerText =
+            "Make your choice! 🎮";
+
+
+        document.getElementById("choices").innerText =
+            "Your choice and computer choice will appear here.";
+
+
+        document.getElementById("historyList").innerHTML =
+
+            `<li>
+                No games played yet.
+            </li>`;
+
+    }
+
+
+
+    /* CLEAR HISTORY */
+
+    function clearHistory() {
+
+        document.getElementById("historyList").innerHTML =
+
+            `<li>
+                No games played yet.
+            </li>`;
+
+    }
+
+
+
+    /* DARK MODE */
+
+    function toggleDarkMode() {
+
+        document.body.classList.toggle("dark");
+
+
+        const button =
+            document.querySelector(".theme-btn");
+
+
+        if (
+            document.body.classList.contains("dark")
+        ) {
+
+            button.innerText = "☀️";
+
+        }
+
+        else {
+
+            button.innerText = "🌙";
+
+        }
+
+    }
+
+
+</script>
+
+
+</body>
+
+</html>
+```
